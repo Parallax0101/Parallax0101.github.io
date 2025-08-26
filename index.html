@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Rolador de Dados RPG</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e2f;
+      color: #f5f5f5;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #ff4b5c;
+    }
+
+    .container {
+      background: #2c2c44;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      margin: 10px 0;
+      width: 80%;
+      text-align: center;
+    }
+
+    button {
+      background: #ff4b5c;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #e13e50;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-size: 18px;
+      background: #3a3a5c;
+      padding: 15px;
+      border-radius: 10px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎲 Rolador de Dados RPG</h1>
+
+  <div class="container">
+    <p>Digite a notação do dado (ex: <b>1d20</b>, <b>2d6+3</b>, <b>3d10-2</b>)</p>
+    <input type="text" id="notacao" placeholder="Ex: 2d6+3">
+    <br>
+    <button onclick="rolar()">Rolar</button>
+    <div id="resultado">O resultado aparecerá aqui</div>
+  </div>
+
+  <script>
+    function rolarDado(notacao) {
+      let regex = /(\d*)d(\d+)([+-]\d+)?/i;
+      let match = notacao.match(regex);
+      
+      if (!match) return "❌ Notação inválida!";
+      
+      let qtd = parseInt(match[1]) || 1;
+      let lados = parseInt(match[2]);
+      let modificador = parseInt(match[3]) || 0;
+
+      let total = 0;
+      let resultados = [];
+
+      for (let i = 0; i < qtd; i++) {
+        let roll = Math.floor(Math.random() * lados) + 1;
+        resultados.push(roll);
+        total += roll;
+      }
+
+      total += modificador;
+
+      return `${notacao.toUpperCase()} → [${resultados.join(", ")}] ${modificador ? (modificador > 0 ? "+" : "") + modificador : ""} = <b>${total}</b>`;
+    }
+
+    function rolar() {
+      let notacao = document.getElementById("notacao").value;
+      let resultado = rolarDado(notacao);
+      document.getElementById("resultado").innerHTML = resultado;
+    }
+  </script>
+</body>
+</html>
