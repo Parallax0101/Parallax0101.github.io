@@ -6,23 +6,23 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #1e1e2f;
-      color: #f5f5f5;
+      background: #2b2b2b; /* fundo chumbo */
+      color: #f0f0f0;
       text-align: center;
       padding: 50px;
     }
 
     h1 {
-      color: #ff4b5c;
+      color: #d64045; /* vermelho mais fechado */
     }
 
     .container {
-      background: #2c2c44;
+      background: #3a3a3a; /* cinza chumbo */
       padding: 20px;
       border-radius: 12px;
-      max-width: 400px;
+      max-width: 450px;
       margin: auto;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
     }
 
     input {
@@ -33,10 +33,12 @@
       margin: 10px 0;
       width: 80%;
       text-align: center;
+      background: #555;
+      color: white;
     }
 
     button {
-      background: #ff4b5c;
+      background: #d64045;
       border: none;
       padding: 10px 20px;
       border-radius: 8px;
@@ -44,19 +46,45 @@
       color: white;
       cursor: pointer;
       transition: 0.2s;
+      margin-top: 10px;
     }
 
     button:hover {
-      background: #e13e50;
+      background: #b52f35;
     }
 
     #resultado {
       margin-top: 20px;
       font-size: 18px;
-      background: #3a3a5c;
+      background: #4a4a4a;
       padding: 15px;
       border-radius: 10px;
       min-height: 40px;
+    }
+
+    #historico {
+      margin-top: 30px;
+      text-align: left;
+      background: #333;
+      padding: 15px;
+      border-radius: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    #historico h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #f0f0f0;
+      border-bottom: 1px solid #555;
+      padding-bottom: 5px;
+    }
+
+    .roll {
+      margin: 5px 0;
+      padding: 5px;
+      border-bottom: 1px solid #444;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -69,38 +97,14 @@
     <br>
     <button onclick="rolar()">Rolar</button>
     <div id="resultado">O resultado aparecerá aqui</div>
+
+    <div id="historico">
+      <h2>📜 Histórico</h2>
+      <div id="listaHistorico"></div>
+    </div>
   </div>
 
-  <script>
-    function rolarDado(notacao) {
-      let regex = /(\d*)d(\d+)([+-]\d+)?/i;
-      let match = notacao.match(regex);
-      
-      if (!match) return "❌ Notação inválida!";
-      
-      let qtd = parseInt(match[1]) || 1;
-      let lados = parseInt(match[2]);
-      let modificador = parseInt(match[3]) || 0;
+  <script src="script_dados.js"></script>
 
-      let total = 0;
-      let resultados = [];
-
-      for (let i = 0; i < qtd; i++) {
-        let roll = Math.floor(Math.random() * lados) + 1;
-        resultados.push(roll);
-        total += roll;
-      }
-
-      total += modificador;
-
-      return `${notacao.toUpperCase()} → [${resultados.join(", ")}] ${modificador ? (modificador > 0 ? "+" : "") + modificador : ""} = <b>${total}</b>`;
-    }
-
-    function rolar() {
-      let notacao = document.getElementById("notacao").value;
-      let resultado = rolarDado(notacao);
-      document.getElementById("resultado").innerHTML = resultado;
-    }
-  </script>
 </body>
 </html>
